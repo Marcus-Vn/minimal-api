@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Setup environment
-      run: echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+      run: echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
