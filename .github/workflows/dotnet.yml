@@ -42,15 +42,18 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    - name: Wait for MySQL and ensure user
+    - name: Wait for MySQL and create appuser
       run: |
-        sudo apt-get update
-        sudo apt-get install mysql-client -y
+        sudo apt-get update && sudo apt-get install mysql-client -y
         until mysql -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} -e "SELECT 1;" ; do
           echo "Waiting for MySQL..."
           sleep 3
         done
-        mysql -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} -e "CREATE USER IF NOT EXISTS 'appuser'@'%' IDENTIFIED WITH mysql_native_password BY '${{ secrets.DB_PASSWORD }}'; GRANT ALL PRIVILEGES ON minimal_apitest.* TO 'appuser'@'%'; FLUSH PRIVILEGES;"
+        mysql -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} -e "
+          CREATE USER IF NOT EXISTS 'appuser'@'%' IDENTIFIED WITH mysql_native_password BY '${{ secrets.DB_PASSWORD }}';
+          GRANT ALL PRIVILEGES ON minimal_apitest.* TO 'appuser'@'%';
+          FLUSH PRIVILEGES;
+        "
 
     - name: Test
       env:
