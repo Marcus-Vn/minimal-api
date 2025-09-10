@@ -1,45 +1,47 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using MinimalApi.Dominio.Entidades;
 using MinimalApi.Dominio.Servicos;
 using MinimalApi.Infraestrutura.Db;
-using System.Reflection;
-using DotNetEnv;
 
 namespace Test.Domain.Entidades;
 
 [TestClass]
-
 public class AdministradorServicoTest
 {
     private DbContexto CriarContextoDeTeste()
     {
         var options = new DbContextOptionsBuilder<DbContexto>()
-            .UseInMemoryDatabase("TesteDb")
+            .UseInMemoryDatabase(databaseName: "TesteDb")
             .Options;
-    
+
         return new DbContexto(options);
     }
 
     [TestMethod]
     public void TesteBuscaPorId()
     {
-        //Arrange
+        // Arrange
         var context = CriarContextoDeTeste();
-        context.Database.ExecuteSqlRaw("TRUNCATE TABLE Administradores");
 
-        var adm = new Administrador();
-        adm.Email = "teste@teste.com";
-        adm.Senha = "teste";
-        adm.Perfil = "Adm";
+        // Limpa a tabela antes do teste
+        context.Administradores.RemoveRange(context.Administradores);
+        context.SaveChanges();
+
+        var adm = new Administrador
+        {
+            Email = "teste@teste.com",
+            Senha = "teste",
+            Perfil = "Adm"
+        };
 
         var administradorServico = new AdministradorServico(context);
 
-        //Act
+        // Act
         administradorServico.Incluir(adm);
         var admBanco = administradorServico.BuscaPorId(adm.Id);
 
-        //Assert
-        Assert.AreEqual(1, admBanco?.Id);
+        // Assert
+        Assert.IsNotNull(admBanco);
+        Assert.AreEqual(adm.Id, admBanco.Id);
     }
 }
