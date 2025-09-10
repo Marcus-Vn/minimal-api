@@ -41,18 +41,7 @@ jobs:
 
     - name: Build
       run: dotnet build --no-restore
-
-    - name: Wait for MySQL
-      run: |
-        for i in {1..30}; do
-          if mysql -h 127.0.0.1 -uappuser -p${123456} -e "SELECT 1" minimal_apitest; then
-            echo "MySQL está pronto!"
-            break
-          fi
-          echo "Aguardando MySQL ($i/30)..."
-          sleep 2
-        done
-
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
