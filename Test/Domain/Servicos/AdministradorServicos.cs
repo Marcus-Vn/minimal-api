@@ -14,17 +14,11 @@ public class AdministradorServicoTest
 {
     private DbContexto CriarContextoDeTeste()
     {
-        var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        var path = Path.GetFullPath(Path.Combine(assemblyPath ?? "", "..", "..", ".."));
-
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(path ?? Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddEnvironmentVariables();
-
-        var configuration = builder.Build();
-
-        return new DbContexto(configuration);
+        var options = new DbContextOptionsBuilder<DbContexto>()
+            .UseInMemoryDatabase("TesteDb")
+            .Options;
+    
+        return new DbContexto(options);
     }
 
     [TestMethod]
