@@ -54,10 +54,5 @@ jobs:
         done
 
     - name: Test
-      env:
-        DB_PASSWORD: 123456
-        DB_HOST: mysql
-        DB_USER: appuser
-        DB_NAME: minimal_apitest
       run: dotnet test --no-build --verbosity normal
 
