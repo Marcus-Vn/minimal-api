@@ -1,7 +1,7 @@
 # Minimal API
 
 ![.NET](https://img.shields.io/badge/.NET-9-informational?logo=dotnet)
-![Build Status](https://img.shields.io/github/workflow/status/Marcus-Vn/minimal-api/workflows/dotnet.yml?branch=main)
+![Build Status](https://img.shields.io/github/actions/workflow/status/Marcus-Vn/minimal-api/dotnet.yml?branch=main)
 ![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
 ![License](https://img.shields.io/github/license/Marcus-Vn/minimal-api)
 
