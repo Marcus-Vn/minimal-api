@@ -13,11 +13,11 @@ jobs:
     steps:
     - name: Setup environment
       run: echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-    - uses: actions/checkout@v3
+    - uses: checkout@v3
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: setup-dotnet@v3
       with:
-        dotnet-version: '9.0.x'
+        dotnet-version: '9.0.3'
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
